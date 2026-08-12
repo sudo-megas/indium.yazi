@@ -93,6 +93,16 @@ ya pkg upgrade
 
 ## What it does
 
+- **A header names the previewer**, filling the pane width, so it is obvious which one is talking:
+
+  ```
+  ──────────────────────────── INDIUM ─────────────────────────────
+  alpha.txt
+  beta.txt
+  ```
+
+  It costs a row, and the row comes out of the listing rather than out of the pane — the header is
+  drawn once and the entries scroll underneath it, so nothing ends up hidden behind the title.
 - **`peek`** runs `indium list` over the hovered file and prints the lines into the pane.
 - **`seek`** scrolls, so a long archive is a pane you can move through rather than one screenful.
 - **Both are lazy.** Reading stops at the screenful being shown, so the first page of an archive

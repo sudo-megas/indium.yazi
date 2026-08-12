@@ -116,13 +116,33 @@ local function run(path, long, want)
 	return out, nil
 end
 
+--- The banner across the top of the pane, so it is obvious which previewer is talking.
+---
+--- It costs a row, and the row it costs comes out of the listing rather than out of the pane: the
+--- header is drawn once and the entries scroll underneath it, so `skip` still counts entries and
+--- nothing is hidden behind the title.
+---@param w integer
+---@return Line
+local function header(w)
+	local label = " INDIUM "
+	local fill = math.max(0, w - #label)
+	local left = math.floor(fill / 2)
+	return ui.Line(string.rep("─", left) .. label .. string.rep("─", fill - left))
+		:style(ui.Style():bold())
+end
+
 function M:peek(job)
-	local limit = job.area.h
+	-- One row of the pane belongs to the header, so the listing gets the rest.
+	local limit = math.max(1, job.area.h - 1)
 	local long = job.area.w >= LONG_MIN_WIDTH
 
 	local lines, err = run(tostring(job.file.path), long, job.skip + limit)
 	if err then
-		return ya.preview_widget(job, err)
+		-- Under the same banner: what refused is the point, and INDIUM's own sentence says so.
+		return ya.preview_widget(
+			job,
+			ui.Text({ header(job.area.w), ui.Line(tostring(err)) }):area(job.area):wrap(ui.Wrap.YES)
+		)
 	elseif job.skip > 0 and #lines < job.skip + limit then
 		-- Scrolled past the end: come back at the true bottom rather than showing a blank pane.
 		return ya.emit("peek", {
@@ -132,7 +152,7 @@ function M:peek(job)
 		})
 	end
 
-	local rows = {}
+	local rows = { header(job.area.w) }
 	for i = job.skip + 1, #lines do
 		-- One line of output has to render as exactly one row, or `skip` stops counting what it
 		-- says it counts and scrolling drifts. So lines are clipped, never wrapped.
@@ -146,8 +166,8 @@ function M:peek(job)
 		end
 	end
 
-	if #rows == 0 and job.skip == 0 then
-		rows[1] = ui.Line("(no entries)")
+	if #rows == 1 and job.skip == 0 then
+		rows[2] = ui.Line("(no entries)")
 	end
 
 	ya.preview_widget(job, ui.Text(rows):area(job.area))
