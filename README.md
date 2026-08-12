@@ -36,6 +36,20 @@ Linux one. `setsid`, below, is from util-linux and narrows it the same way.
   previews without it, but an archive with an encrypted header will hang the pane — see
   [below](#refusals-are-shown-not-swallowed) for why.
 
+### Installing INDIUM
+
+It is not in any distribution's repositories yet, so take a package from its
+[latest release](https://github.com/sudo-megas/INDIUM/releases/latest) — the version in these
+names moves, so copy the one on the page:
+
+```sh
+sudo pacman -U indium-*-x86_64.pkg.tar.zst      # Arch, needs glibc 2.43
+sudo apt install ./indium_*_amd64.deb           # Debian / Ubuntu, needs glibc 2.35
+```
+
+There is a plain `.tar.gz` of the binary for anything else; put `indium` somewhere on your
+`PATH`. Only that binary matters here — this plugin never opens INDIUM's window.
+
 ## Install
 
 ```sh
