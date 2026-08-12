@@ -38,17 +38,23 @@ Linux one. `setsid`, below, is from util-linux and narrows it the same way.
 
 ### Installing INDIUM
 
-It is not in any distribution's repositories yet, so take a package from its
-[latest release](https://github.com/sudo-megas/INDIUM/releases/latest) — the version in these
-names moves, so copy the one on the page:
+It is not in any distribution's repositories yet, so it comes from its
+[latest release](https://github.com/sudo-megas/INDIUM/releases/latest).
+
+**If you only want to try this plugin, take the tarball.** It is one binary, it needs no root and
+installs nothing, and this previewer wants nothing else — `indium` on your `PATH` is the whole
+dependency. It never opens INDIUM's window.
 
 ```sh
-sudo pacman -U indium-*-x86_64.pkg.tar.zst      # Arch, needs glibc 2.43
-sudo apt install ./indium_*_amd64.deb           # Debian / Ubuntu, needs glibc 2.35
+tar xf indium-*-x86_64.tar.gz
+mv indium ~/.local/bin/          # anywhere on PATH; needs glibc 2.35 or newer
 ```
 
-There is a plain `.tar.gz` of the binary for anything else; put `indium` somewhere on your
-`PATH`. Only that binary matters here — this plugin never opens INDIUM's window.
+To keep it, there are packages on the same page — `sudo pacman -U indium-*-x86_64.pkg.tar.zst`
+on Arch (glibc 2.43), `sudo apt install ./indium_*_amd64.deb` on Debian and Ubuntu (glibc 2.35).
+Those also register the desktop entry, which is of no interest here.
+
+The version in all of those names moves; copy the one the release page shows.
 
 ## Install
 
