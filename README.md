@@ -39,8 +39,14 @@ Linux one. `setsid`, below, is from util-linux and narrows it the same way.
 ## Install
 
 ```sh
-ya pkg add sudo-megas/indium.yazi
+ya pkg add sudo-megas/indium
 ```
+
+**Without the `.yazi`.** `ya` appends the suffix itself, both to find the repository and to name
+the directory it installs into. Handed the suffix it stops with *"Package name `indium.yazi` must
+be in kebab-case"*, a dot not being kebab-case. Plenty of plugin READMEs still print the suffixed
+form and none of them work on `ya` 26.5.6 — including this one, until the line was run instead of
+written.
 
 Then tell yazi to use it, in `~/.config/yazi/yazi.toml`:
 
